@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import UserList from "./UserList.jsx";
 import './App.css';
 import UserForm from "./UserForm.jsx";
-import Page1 from "./Page1.jsx";
-import Page2 from "./Page2.jsx";
+import TestApp from "./TestApp.jsx";
 
 
 function App() {

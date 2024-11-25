@@ -4,7 +4,7 @@ import './App.css';
 import UserForm from "./UserForm.jsx";
 import Page1 from "./Page1.jsx";
 import Page2 from "./Page2.jsx";
-
+import BMICalculator from "./BMICalculator";
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -53,6 +53,10 @@ function App() {
           </div>
 
           }
+          {/* BMI Calculator Section */}
+          <div style={{ marginTop: "20px" }}>
+                <BMICalculator />
+            </div>
   </>
   );
 }

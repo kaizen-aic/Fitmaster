@@ -60,6 +60,30 @@ def delete_user(user_id):
     db.session.commit()
     return jsonify({'message': "User deleted!"}), 200
 
+# POST users' BMI
+@app.route('/api/calculate-bmi', methods=['POST'])
+def calculate_bmi():
+    # Get height and weight from request data
+    height = request.json.get('height')
+    weight = request.json.get('weight')
+
+    if not height or not weight:
+        print("bad request received")
+        return jsonify({'message': 'missing required fields'}), 400,  #bad request
+
+    try:
+        height = float(height)
+        weight = float(weight)
+
+        # Calculate the BMI
+        bmi = (weight / (height * height)) * 703
+
+        # Return the BMI result
+        return jsonify({'bmi': round(bmi, 2)}), 200
+    
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+    
 # other pages
 @app.route('/api/page1', methods=['GET'])
 def page1():

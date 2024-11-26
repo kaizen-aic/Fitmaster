@@ -4,6 +4,8 @@ const UserForm = ({ existingUser = {}, updateCallback }) => {
     const [firstName, setFirstName] = useState(existingUser.firstName || "")
     const [lastName, setLastName] = useState(existingUser.lastName || "")
     const [email, setEmail] = useState(existingUser.email || "")
+    const [password, setPassword] = useState('')
+    const [gender, setGender] = useState('')
 
     const updating = Object.entries(existingUser).length !== 0
 

@@ -1,58 +1,24 @@
 import { useState, useEffect } from 'react';
-import UserList from "./UserList.jsx";
-import './App.css';
-import UserForm from "./UserForm.jsx";
 import TestApp from "./TestApp.jsx";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Home from "./Home.jsx";
+import Page1 from "./Page1";
+import Page2 from "./Page2.jsx";
 
 
 function App() {
-    const [users, setUsers] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentUser, setCurrentUser] = useState({});
 
-    useEffect(() => {
-       fetchUsers()
-    }, []);
-
-    const fetchUsers = async () => {
-        const response = await fetch("http://127.0.0.1:5000/api/users");
-        const data = await response.json();
-        setUsers(data.users);
-        console.log(data.users);
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setCurrentUser({});
-    }
-
-    const onUpdate = () => {
-        closeModal();
-        fetchUsers();
-    }
-
-    const openCreateModal = () => {
-        if (!isModalOpen) setIsModalOpen(true);
-    }
-
-    const openEditModal = (user) => {
-        if (isModalOpen) return
-        setCurrentUser(user)
-        setIsModalOpen(true);
-
-    }
-  return (<>
-      <UserList users={users} updateUser={openEditModal} updateCallback={onUpdate} />
-          <button onClick={openCreateModal}>Create New Contact</button>
-          {isModalOpen && <div className="modal">
-              <div className="modal-content">
-                  <span className="close" onClick={closeModal}>&times;</span>
-                  <UserForm existingUser={currentUser} updateCallback={onUpdate} />
-              </div>
-          </div>
-
-          }
-  </>
+  return (
+      <div>
+          <BrowserRouter>
+              <Routes>
+                  <Route index element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/page1" element={<Page1 />} />
+                  <Route path="/page2" element={<Page2 />} />
+              </Routes>
+          </BrowserRouter>
+      </div>
   );
 }
 

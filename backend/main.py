@@ -83,7 +83,39 @@ def calculate_bmi():
     
     except Exception as e:
         return jsonify({'message': str(e)}), 400
-    
+
+# Mock storage for demonstration (replace with actual database in production)
+authenticate_users = {}
+
+@app.route('/api/signup', methods=['POST'])
+def signup():
+    email = request.json.get('email')
+    password = request.json.get('password')
+
+    if not email or not password:
+        return jsonify({'message': 'Missing email or password'}), 400
+
+    if email in authenticate_users:
+        return jsonify({'message': 'User already exists'}), 400
+
+    # Store email and plain password (insecure; for demo purposes only)
+    authenticate_users[email] = password
+    return jsonify({'message': 'User registered successfully!'}), 201
+
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    email = request.json.get('email')
+    password = request.json.get('password')
+
+    if not email or not password:
+        return jsonify({'message': 'Missing email or password'}), 400
+
+    if authenticate_users.get(email) != password:
+        return jsonify({'message': 'Invalid email or password'}), 400
+
+    return jsonify({'message': 'Logged in successfully!'}), 200    
+
 # other pages
 @app.route('/api/page1', methods=['GET'])
 def page1():

@@ -6,6 +6,7 @@ import Page1 from "./Page1.jsx";
 import Page2 from "./Page2.jsx";
 import BMICalculator from "./BMICalculator";
 import Authentication from './Authentication.jsx';
+import RestaurantOptions from './RestaurantOptions.jsx';
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -57,6 +58,11 @@ function App() {
           {/* BMI Calculator Section */}
           <div style={{ marginTop: "20px" }}>
                 <BMICalculator />
+          </div>
+
+          {/* Restaurant Options Section */}
+          <div style={{ marginTop: "20px" }}>
+                <RestaurantOptions />
           </div>
 
           {/* Authentication Section */}

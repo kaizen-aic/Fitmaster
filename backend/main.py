@@ -60,6 +60,38 @@ def delete_user(user_id):
     db.session.commit()
     return jsonify({'message': "User deleted!"}), 200
 
+# Mock data for achievements
+achievements = [
+    {"id": 1, "name": "First Steps", "milestone": "10,000 steps", "achieved": False},
+    {"id": 2, "name": "Calorie Burner", "milestone": "500 calories burned", "achieved": False},
+    {"id": 3, "name": "Night Owl", "milestone": "7 hours of sleep", "achieved": False},
+]
+
+# GET all achievements
+@app.route('/api/achievements', methods=['GET'])
+def get_achievements():
+    return jsonify({"achievements": achievements}), 200
+
+# PATCH update achievement status
+@app.route('/api/achievements/<int:achievement_id>', methods=['PATCH'])
+def update_achievement(achievement_id):
+    data = request.json
+    achieved = data.get("achieved", False)
+
+    # Find the achievement by ID
+    for achievement in achievements:
+        if achievement["id"] == achievement_id:
+            achievement["achieved"] = achieved
+            return jsonify({
+                "message": f"Achievement {achievement_id} updated!",
+                "achievement": achievement
+            }), 200
+
+    # If achievement not found
+    return jsonify({"message": "Achievement not found"}), 404
+
+
+
 # other pages
 @app.route('/api/page1', methods=['GET'])
 def page1():

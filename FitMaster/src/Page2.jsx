@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import {Link} from "react-router-dom";
 
 function Page2() {
-  const [data, setData] = useState('');
-
-  useEffect(() => {
-    fetch('/api/page2')
-      .then((response) => response.json())
-      .then((data) => setData(data.message));
-  }, []);
 
   return (
     <div>
       <h1>Page 2</h1>
-      <p>{data}</p>
+      <nav>
+          <ul>
+              <li><Link to="/home">Home</Link></li>
+          </ul>
+      </nav>
     </div>
   );
 }

@@ -70,6 +70,75 @@ def page2():
     return jsonify({"message": "This is data for Page 2"})
 
 
+GROUPS = [
+    {"name": "Morning Yoga Club"},
+    {"name": "5K Runners Challenge"},
+    {"name": "Strength Training Warriors"},
+    {"name": "Healthy Eating Support Group"},
+]
+
+# GET fitness groups
+@app.route('/api/groups', methods=['GET'])
+def get_groups():
+    return jsonify({"groups": GROUPS})
+
+# POST to join a group
+@app.route('/api/join_group', methods=['POST'])
+def join_group():
+    group_name = request.json.get('groupName')
+    if not group_name:
+        return jsonify({'message': 'Group name is required'}), 400
+
+    # Mock logic: In a real scenario, save the user's group subscription in the database
+    return jsonify({'message': f'You successfully joined the group: {group_name}'}), 200
+
+# Mock database for simplicity
+COMMUNITY_POSTS = []
+
+# GET community posts
+@app.route('/api/posts', methods=['GET'])
+def get_posts():
+    return jsonify({"posts": COMMUNITY_POSTS})
+
+# POST a new community post
+@app.route('/api/posts', methods=['POST'])
+def create_post():
+    content = request.json.get('content')
+    if not content:
+        return jsonify({'message': 'Post content is required'}), 400
+
+    new_post = {"content": content}
+    COMMUNITY_POSTS.append(new_post)
+
+    return jsonify({'message': 'Post created successfully!'}), 201
+
+# Mock database for simplicity
+HEALTH_DATA = []
+
+# GET health data
+@app.route('/api/health', methods=['GET'])
+def get_health_data():
+    return jsonify({"records": HEALTH_DATA})
+
+# POST health data
+@app.route('/api/health', methods=['POST'])
+def submit_health_data():
+    weight = request.json.get('weight')
+    heart_rate = request.json.get('heartRate')
+    fitness_goal = request.json.get('fitnessGoal')
+
+    if not weight or not heart_rate or not fitness_goal:
+        return jsonify({'message': 'All fields are required'}), 400
+
+    new_record = {
+        "weight": weight,
+        "heartRate": heart_rate,
+        "fitnessGoal": fitness_goal,
+    }
+    HEALTH_DATA.append(new_record)
+    return jsonify({'message': 'Health data submitted successfully!'}), 201
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import UserList from "./UserList.jsx";
 import './App.css';
 import UserForm from "./UserForm.jsx";
-import Page1 from "./Page1.jsx";
-import Page2 from "./Page2.jsx";
-
+import FitnessGroups from './FitnessGroup';
+import CommunityBoard from './CommunityBoard';
+import HealthData from './HealthData';
 
 function App() {
     const [users, setUsers] = useState([]);

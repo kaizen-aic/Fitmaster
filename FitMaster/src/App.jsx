@@ -43,6 +43,12 @@ function App() {
 
     }
   return (<>
+      <h1>Fitness Groups and User Management</h1>
+        <FitnessGroups />
+        <h1>Community Dashboard</h1>
+        <CommunityBoard />
+        <h1>Health Data</h1>
+        <HealthData />
       <UserList users={users} updateUser={openEditModal} updateCallback={onUpdate} />
           <button onClick={openCreateModal}>Create New Contact</button>
           {isModalOpen && <div className="modal">

@@ -62,6 +62,7 @@ const BMICalculator = () => {
             </div>
             {error && <div style={{ color: 'red' }}>{error}</div>}
         </div>
+
     );
 };
 

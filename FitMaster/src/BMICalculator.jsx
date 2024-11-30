@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import HomeButton from "./HomeButton.jsx";
 
 axios.defaults.baseURL = 'http://127.0.0.1:5000';
 
@@ -61,6 +62,9 @@ const BMICalculator = () => {
                 </label>
             </div>
             {error && <div style={{ color: 'red' }}>{error}</div>}
+            <div style={{ marginTop: '20px'}}>
+                <HomeButton />
+            </div>
         </div>
 
     );

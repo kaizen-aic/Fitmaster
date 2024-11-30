@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Achievements.css';
+import HomeButton from "./HomeButton.jsx";
 
 const Achievements = () => {
   const [achievements, setAchievements] = useState([]);
@@ -62,34 +63,37 @@ const Achievements = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="achievements-container">
-      <h1>Achievements</h1>
+      <div className="achievements-container">
+        <h1>Achievements</h1>
 
-      {/* Progress Bar */}
-      <div className="progress-bar">
-        <div
-          className="progress-bar-filled"
-          style={{ width: `${progressPercentage}%` }}
-        ></div>
+        {/* Progress Bar */}
+        <div className="progress-bar">
+          <div
+              className="progress-bar-filled"
+              style={{width: `${progressPercentage}%`}}
+          ></div>
+        </div>
+        <p>Progress: {progressPercentage}%</p>
+
+        {/* Achievement List */}
+        <ul>
+          {achievements.map((achievement) => (
+              <li key={achievement.id} className={achievement.achieved ? 'achieved' : ''}>
+                <h2>{achievement.name}</h2>
+                <p>{achievement.milestone}</p>
+                <button
+                    onClick={() => handleAchieve(achievement.id)}
+                    disabled={achievement.achieved}
+                >
+                  {achievement.achieved ? 'Achieved!' : 'Achieve Now'}
+                </button>
+              </li>
+          ))}
+        </ul>
+        <div style={{marginTop: '20px'}}>
+          <HomeButton/>
+        </div>
       </div>
-      <p>Progress: {progressPercentage}%</p>
-
-      {/* Achievement List */}
-      <ul>
-        {achievements.map((achievement) => (
-          <li key={achievement.id} className={achievement.achieved ? 'achieved' : ''}>
-            <h2>{achievement.name}</h2>
-            <p>{achievement.milestone}</p>
-            <button
-              onClick={() => handleAchieve(achievement.id)}
-              disabled={achievement.achieved}
-            >
-              {achievement.achieved ? 'Achieved!' : 'Achieve Now'}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 };
 

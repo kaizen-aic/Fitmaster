@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import HomeButton from "./HomeButton.jsx";
 
 function FitnessGroups() {
     const [groups, setGroups] = useState([]);
@@ -45,7 +46,11 @@ function FitnessGroups() {
                     </li>
                 ))}
             </ul>
+            <div style={{marginTop: '20px'}}>
+                <HomeButton/>
+            </div>
         </div>
+
     );
 }
 

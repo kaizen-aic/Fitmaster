@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import HomeButton from "./HomeButton.jsx";
 
 function CommunityBoard() {
     const [posts, setPosts] = useState([]);
@@ -64,6 +65,9 @@ function CommunityBoard() {
                     </li>
                 ))}
             </ul>
+            <div style={{marginTop: '20px'}}>
+                <HomeButton/>
+            </div>
         </div>
     );
 }

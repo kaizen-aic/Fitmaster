@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import './Home.css'; // Import the CSS file
 
+
 const Home = () => {
     return (
         <div className="container">
@@ -18,6 +19,7 @@ const Home = () => {
                     <li><Link to="/Achievements" className="nav-link">Achievements</Link></li>
                 </ul>
             </nav>
+
         </div>
     );
 }

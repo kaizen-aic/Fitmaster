@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import HomeButton from "./HomeButton.jsx";
 
 function HealthData() {
     const [healthRecords, setHealthRecords] = useState([]);
@@ -95,6 +96,9 @@ function HealthData() {
                     </li>
                 ))}
             </ul>
+            <div style={{marginTop: '20px'}}>
+                <HomeButton/>
+            </div>
         </div>
     );
 }

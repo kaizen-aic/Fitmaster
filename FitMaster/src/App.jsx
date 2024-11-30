@@ -1,3 +1,4 @@
+
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './App.css';
 import Home from "./Home.jsx";
@@ -7,6 +8,7 @@ import RestaurantOptions from './RestaurantOptions.jsx';
 import FitnessGroups from './FitnessGroup';
 import CommunityBoard from './CommunityBoard';
 import HealthData from './HealthData';
+import Achievements from './Achievements';
 
 function App() {
   return (<>
@@ -21,6 +23,7 @@ function App() {
                       <Route path="/FitnessGroups" element={<FitnessGroups/>}/>
                       <Route path="/CommunityBoard" element={<CommunityBoard/>}/>
                       <Route path="/HealthData" element={<HealthData/>}/>
+                      <Route path="/Achievements" element={<Achievements/>}/>
                   </Routes>
               </BrowserRouter>
           </div>

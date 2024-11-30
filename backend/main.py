@@ -60,6 +60,37 @@ def delete_user(user_id):
     db.session.commit()
     return jsonify({'message': "User deleted!"}), 200
 
+# Mock data for achievements
+achievements = [
+    {"id": 1, "name": "First Steps", "milestone": "10,000 steps", "achieved": False},
+    {"id": 2, "name": "Calorie Burner", "milestone": "500 calories burned", "achieved": False},
+    {"id": 3, "name": "Night Owl", "milestone": "7 hours of sleep", "achieved": False},
+]
+
+# GET all achievements
+@app.route('/api/achievements', methods=['GET'])
+def get_achievements():
+    return jsonify({"achievements": achievements}), 200
+
+# PATCH update achievement status
+@app.route('/api/achievements/<int:achievement_id>', methods=['PATCH'])
+def update_achievement(achievement_id):
+    data = request.json
+    achieved = data.get("achieved", False)
+
+    # Find the achievement by ID
+    for achievement in achievements:
+        if achievement["id"] == achievement_id:
+            achievement["achieved"] = achieved
+            return jsonify({
+                "message": f"Achievement {achievement_id} updated!",
+                "achievement": achievement
+            }), 200
+
+    # If achievement not found
+    return jsonify({"message": "Achievement not found"}), 404
+
+
 # POST users' BMI
 @app.route('/api/calculate-bmi', methods=['POST'])
 def calculate_bmi():
@@ -84,7 +115,7 @@ def calculate_bmi():
     except Exception as e:
         return jsonify({'message': str(e)}), 400
 
-# Mock storage for demonstration (replace with actual database in production)
+# Mock storage for demo
 authenticate_users = {}
 
 @app.route('/api/signup', methods=['POST'])
@@ -145,7 +176,7 @@ def join_group():
     if not group_name:
         return jsonify({'message': 'Group name is required'}), 400
 
-    # Mock logic: In a real scenario, save the user's group subscription in the database
+    # Mock logic
     return jsonify({'message': f'You successfully joined the group: {group_name}'}), 200
 
 # Mock database for simplicity

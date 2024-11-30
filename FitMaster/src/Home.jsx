@@ -11,6 +11,9 @@ function Home() {
                 <ul>
                     <li><Link to={"/BMICalculator"}>BMI Calculator</Link></li>
                     <li><Link to={"/RestaurantOptions"}>Restaurant Options</Link></li>
+                    <li><Link to={"/FitnessGroups"}>Join Fitness Groups</Link></li>
+                    <li><Link to={"/CommunityBoard"}>Community Board </Link></li>
+                    <li><Link to={"/HealthData"}>Input Health Data</Link></li>
                 </ul>
             </nav>
         </div>

@@ -9,8 +9,8 @@ function Home() {
             <h2>Select your destination:</h2>
             <nav>
                 <ul>
-                    <li><Link to={"/page1"}>Page 1</Link></li>
-                    <li><Link to={"/page2"}>Page 2</Link></li>
+                    <li><Link to={"/BMICalculator"}>BMI Calculator</Link></li>
+                    <li><Link to={"/RestaurantOptions"}>Restaurant Options</Link></li>
                 </ul>
             </nav>
         </div>

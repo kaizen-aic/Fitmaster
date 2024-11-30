@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import {Link} from "react-router-dom";
 
 function Page1() {
-  const [data, setData] = useState('');
 
-  useEffect(() => {
-    fetch('/api/page1')
-      .then((response) => response.json())
-      .then((data) => setData(data.message));
-  }, []);
-
-  return (
-    <div>
-      <h1>Page 1</h1>
-      <p>{data}</p>
-    </div>
-  );
+    return (
+        <div>
+            <h1>Header: Test Page 1</h1>
+            <h2>Test Page 1 Header 2</h2>
+            <nav>
+                <ul>
+                    <li><Link to="/home">Home</Link></li>
+                </ul>
+            </nav>
+        </div>
+    )
 }
 
 export default Page1;

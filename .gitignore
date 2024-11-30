@@ -12,7 +12,6 @@ yarn-debug.log*
 yarn-error.log*
 coverage/
 build/
-.env
 .env.local
 .env.*.local
 

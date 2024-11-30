@@ -1,6 +1,5 @@
-// achievements.jsx
-
 import React, { useState, useEffect } from 'react';
+import './Achievements.css';
 
 const Achievements = () => {
   const [achievements, setAchievements] = useState([]);
@@ -54,12 +53,28 @@ const Achievements = () => {
     }
   };
 
+  // Calculate progress
+  const totalAchievements = achievements.length;
+  const achievedCount = achievements.filter((achievement) => achievement.achieved).length;
+  const progressPercentage = totalAchievements ? Math.round((achievedCount / totalAchievements) * 100) : 0;
+
   if (loading) return <div>Loading achievements...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <div className="achievements-container">
       <h1>Achievements</h1>
+
+      {/* Progress Bar */}
+      <div className="progress-bar">
+        <div
+          className="progress-bar-filled"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
+      <p>Progress: {progressPercentage}%</p>
+
+      {/* Achievement List */}
       <ul>
         {achievements.map((achievement) => (
           <li key={achievement.id} className={achievement.achieved ? 'achieved' : ''}>

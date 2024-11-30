@@ -2,6 +2,34 @@
 from flask import request, jsonify
 from config import app, db
 from models import User
+from models import Schedule  # Import the new model
+
+@app.route('/api/schedule', methods=['GET'])
+def get_schedule():
+    schedules = Schedule.query.all()
+    json_schedules = list(map(lambda s: s.to_json(), schedules))
+    return jsonify({'schedules': json_schedules})
+
+
+@app.route('/api/schedule', methods=['POST'])
+def create_schedule():
+    data = request.json
+    title = data.get('title')
+    description = data.get('description')
+    time = data.get('time')
+
+    if not title or not description or not time:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    new_schedule = Schedule(title=title, description=description, time=time)
+    try:
+        db.session.add(new_schedule)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    return jsonify({'message': 'Schedule created!'}), 201
+
 
 
 #GET users

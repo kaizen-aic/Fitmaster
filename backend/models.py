@@ -15,3 +15,17 @@ class User(db.Model):
             "lastName": self.last_name,
             "email": self.email,
         }
+    
+class Schedule(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(250), nullable=False)
+    time = db.Column(db.String(10), nullable=False)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "time": self.time,
+        }

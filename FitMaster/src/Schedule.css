@@ -1,0 +1,96 @@
+/* Schedule.css */
+
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  
+  /* Container for the schedule component */
+  .schedule-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+  }
+  
+  /* Header styling */
+  .schedule-container h2 {
+    text-align: center;
+    color: #4caf50;
+  }
+  
+  /* Form styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  form input,
+  form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  form input:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  
+  form button {
+    background: #4caf50;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  form button:hover {
+    background: #45a049;
+  }
+  
+  /* Schedule list styling */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+  
+  ul li {
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  
+  ul li h3 {
+    margin: 0 0 0.5rem;
+    color: #388e3c;
+  }
+  
+  ul li p {
+    margin: 0.2rem 0;
+    color: #666;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 600px) {
+    .schedule-container {
+      padding: 1rem;
+    }
+  
+    form input,
+    form button {
+      font-size: 14px;
+    }
+  }
+  

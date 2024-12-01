@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import './Home.css'; // Import the CSS file
+// import './Home.css'; // Import the CSS file
 
 
-const Home = () => {
+const TrainerHome = () => {
     return (
         <div className="container">
             <header className="header">
@@ -17,7 +17,8 @@ const Home = () => {
                     <li><Link to="/CommunityBoard" className="nav-link">Community Board</Link></li>
                     <li><Link to="/HealthData" className="nav-link">Input Health Data</Link></li>
                     <li><Link to="/Achievements" className="nav-link">Achievements</Link></li>
-                    <li><Link to="/Authentication" className="nav-link">Sign Out</Link> </li>
+                    <li><Link to="/Assessments" className="nav-link">Assessments</Link></li>
+                    <li><Link to="/Authentication" className="nav-link">Sign Out</Link></li>
                 </ul>
             </nav>
 
@@ -25,4 +26,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default TrainerHome;

@@ -4,35 +4,6 @@ from config import app, db
 from models import User
 
 
-#GET users
-@app.route('/api/users', methods=['GET'])
-def get_users():
-    users = User.query.all()
-    json_users = list(map(lambda u: u.to_json(), users))
-    return jsonify({'users': json_users})
-
-
-#POST users
-@app.route('/api/users', methods=['POST'])
-def create_user():
-    first_name = request.json.get('firstName')
-    last_name = request.json.get('lastName')
-    email = request.json.get('email')
-
-    if not first_name or not last_name or not email:
-        print("bad request received")
-        return jsonify({'message': 'missing required fields'}), 400,  #bad request
-
-    new_user = User(first_name=first_name, last_name=last_name, email=email)
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-    except Exception as e:
-        return jsonify({'message': str(e)}), 400
-
-    return jsonify({'message': "User created!"}), 201
-
-
 @app.route('/api/users/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
     user = User.query.get(user_id)
@@ -122,15 +93,23 @@ authenticate_users = {}
 def signup():
     email = request.json.get('email')
     password = request.json.get('password')
+    fitness_trainer = request.json.get('fitnessTrainer', False)  # New parameter from request
 
     if not email or not password:
         return jsonify({'message': 'Missing email or password'}), 400
 
-    if email in authenticate_users:
+    # Check if user already exists
+    if User.query.filter_by(email=email).first():
         return jsonify({'message': 'User already exists'}), 400
 
-    # Store email and plain password (insecure; for demo purposes only)
-    authenticate_users[email] = password
+    # Create a new user
+    new_user = User(email=email, password=password, fitness_trainer=fitness_trainer)
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
     return jsonify({'message': 'User registered successfully!'}), 201
 
 
@@ -142,10 +121,19 @@ def login():
     if not email or not password:
         return jsonify({'message': 'Missing email or password'}), 400
 
-    if authenticate_users.get(email) != password:
+    # Fetch user from the database
+    user = User.query.filter_by(email=email).first()
+
+    if not user or user.password != password:
         return jsonify({'message': 'Invalid email or password'}), 400
 
-    return jsonify({'message': 'Logged in successfully!'}), 200    
+    # Determine redirection based on the type of user
+    if user.fitness_trainer:
+        redirect_url = "/TrainerHome"
+    else:
+        redirect_url = "/home"
+
+    return jsonify({'message': 'Logged in successfully!', 'redirect_url': redirect_url}), 200
 
 # other pages
 @app.route('/api/page1', methods=['GET'])

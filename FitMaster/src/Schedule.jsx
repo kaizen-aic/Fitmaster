@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Schedule.css';
+import HomeButton from './HomeButton';
 
 const Schedule = () => {
   const [schedule, setSchedule] = useState([]);
@@ -80,6 +81,9 @@ const Schedule = () => {
           </li>
         ))}
       </ul>
+      <div>
+        <HomeButton />
+      </div>
     </div>
   );
 };

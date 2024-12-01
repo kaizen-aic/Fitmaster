@@ -1,0 +1,61 @@
+.trainer-feedback-wrapper {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.trainer-feedback-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.trainer-feedback-wrapper form {
+  display: flex;
+  flex-direction: column;
+}
+
+.trainer-feedback-wrapper input,
+.trainer-feedback-wrapper textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.trainer-feedback-wrapper button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.trainer-feedback-wrapper button:hover {
+  background-color: #0056b3;
+}
+
+.trainer-feedback-wrapper ul {
+  list-style: none;
+  padding: 0;
+}
+
+.trainer-feedback-wrapper li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.trainer-feedback-wrapper li button {
+  margin-left: 10px;
+  background-color: #dc3545;
+}
+
+.trainer-feedback-wrapper li button:hover {
+  background-color: #c82333;
+}

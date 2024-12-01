@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Leaderboard.css';
+import Home from './Home';
+import HomeButton from "./HomeButton.jsx";
 
 const Leaderboard = () => {
   const [entries, setEntries] = useState([]);
@@ -77,6 +79,9 @@ const Leaderboard = () => {
           </li>
         ))}
       </ul>
+      <div>
+        <HomeButton />
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import HomeButton from "./HomeButton.jsx";
+import "./BMICalculator.css"
 
 axios.defaults.baseURL = 'http://127.0.0.1:5000';
 
@@ -25,16 +26,17 @@ const BMICalculator = () => {
     };
 
     return (
-        <div>
-            <h2>BMI Calculator</h2>
+        <div className="container">
+            <h2 className="title">BMI Calculator</h2>
             <div>
                 <label>
-                    Height (in.):
+                    <label htmlFor="height">Height (in):</label>
                     <input
                         type="number"
                         value={height}
                         onChange={(e) => setHeight(e.target.value)}
                         placeholder=""
+                        className="input-field"
                     />
                 </label>
             </div>
@@ -46,6 +48,7 @@ const BMICalculator = () => {
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
                         placeholder=""
+                        className="input-field"
                     />
                 </label>
             </div>
@@ -66,6 +69,7 @@ const BMICalculator = () => {
                 <HomeButton />
             </div>
         </div>
+
 
     );
 };

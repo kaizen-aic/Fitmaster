@@ -17,10 +17,11 @@ const Home = () => {
                     <li><Link to="/CommunityBoard" className="nav-link">Community Board</Link></li>
                     <li><Link to="/HealthData" className="nav-link">Input Health Data</Link></li>
                     <li><Link to="/Achievements" className="nav-link">Achievements</Link></li>
-                    <li><Link to="/Authentication" className="nav-link">Sign Out</Link> </li>
+                    <li><Link to="/Leaderboard" className="nav-link">Leaderboard</Link></li>
+                    <li><Link to="/Schedule" className="nav-link">Schedule</Link></li>
+                    <li><Link to="/Authentication" className="nav-link">Sign Out</Link></li>
                 </ul>
             </nav>
-
         </div>
     );
 }

@@ -1,7 +1,89 @@
 # import components
 from flask import request, jsonify
 from config import app, db
-from models import User
+from models import User, Feedback
+from models import Schedule 
+from models import Leaderboard
+
+@app.route('/api/schedule', methods=['GET'])
+def get_schedule():
+    schedules = Schedule.query.all()
+    json_schedules = list(map(lambda s: s.to_json(), schedules))
+    return jsonify({'schedules': json_schedules})
+
+
+@app.route('/api/schedule', methods=['POST'])
+def create_schedule():
+    data = request.json
+    title = data.get('title')
+    description = data.get('description')
+    time = data.get('time')
+
+    if not title or not description or not time:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    new_schedule = Schedule(title=title, description=description, time=time)
+    try:
+        db.session.add(new_schedule)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    return jsonify({'message': 'Schedule created!'}), 201
+@app.route('/api/schedule/<int:schedule_id>', methods=['DELETE'])
+def delete_schedule(schedule_id):
+    schedule = Schedule.query.get(schedule_id)
+    if not schedule:
+        return jsonify({'message': 'Schedule not found'}), 404
+
+    try:
+        db.session.delete(schedule)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    return jsonify({'message': 'Schedule deleted!'}), 200
+
+@app.route('/api/leaderboard', methods=['GET'])
+def get_leaderboard():
+    leaderboard = Leaderboard.query.order_by(Leaderboard.goals_completed.desc()).all()
+    json_leaderboard = list(map(lambda l: l.to_json(), leaderboard))
+    return jsonify({'leaderboard': json_leaderboard})
+
+# POST new leaderboard entry
+@app.route('/api/leaderboard', methods=['POST'])
+def add_leaderboard_entry():
+    data = request.json
+    name = data.get('name')
+    weight_lost = data.get('weightLost')
+    goals_completed = data.get('goalsCompleted')
+
+    if not name or weight_lost is None or goals_completed is None:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    new_entry = Leaderboard(name=name, weight_lost=weight_lost, goals_completed=goals_completed)
+    try:
+        db.session.add(new_entry)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    return jsonify({'message': 'Entry added!'}), 201
+
+# DELETE leaderboard entry
+@app.route('/api/leaderboard/<int:entry_id>', methods=['DELETE'])
+def delete_leaderboard_entry(entry_id):
+    entry = Leaderboard.query.get(entry_id)
+    if not entry:
+        return jsonify({'message': 'Entry not found'}), 404
+
+    try:
+        db.session.delete(entry)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    return jsonify({'message': 'Entry deleted!'}), 200
 
 
 @app.route('/api/users/<int:user_id>', methods=['PATCH'])
@@ -212,6 +294,37 @@ def submit_health_data():
     }
     HEALTH_DATA.append(new_record)
     return jsonify({'message': 'Health data submitted successfully!'}), 201
+
+@app.route('/api/feedback', methods=['GET'])
+def get_feedbacks():
+    feedbacks = Feedback.query.all()
+    json_feedbacks = [fb.to_json() for fb in feedbacks]
+    return jsonify({'feedbacks': json_feedbacks})
+
+@app.route('/api/feedback', methods=['POST'])
+def add_feedback():
+    data = request.json
+    user_id = data.get('userId')
+    message = data.get('message')
+
+    if not user_id or not message:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    feedback = Feedback(user_id=user_id, message=message)
+    db.session.add(feedback)
+    db.session.commit()
+    return jsonify({'feedback': feedback.to_json()}), 201
+
+@app.route('/api/feedback/<int:feedback_id>', methods=['DELETE'])
+def delete_feedback(feedback_id):
+    feedback = Feedback.query.get(feedback_id)
+    if not feedback:
+        return jsonify({'message': 'Feedback not found'}), 404
+
+    db.session.delete(feedback)
+    db.session.commit()
+    return jsonify({'message': 'Feedback deleted!'}), 200
+
 
 
 if __name__ == '__main__':

@@ -29,3 +29,17 @@ class Schedule(db.Model):
             "description": self.description,
             "time": self.time,
         }
+    
+class Leaderboard(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    weight_lost = db.Column(db.Float, nullable=False)
+    goals_completed = db.Column(db.Integer, nullable=False)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "weightLost": self.weight_lost,
+            "goalsCompleted": self.goals_completed,
+        }

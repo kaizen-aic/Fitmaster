@@ -29,6 +29,20 @@ def create_schedule():
         return jsonify({'message': str(e)}), 400
 
     return jsonify({'message': 'Schedule created!'}), 201
+@app.route('/api/schedule/<int:schedule_id>', methods=['DELETE'])
+def delete_schedule(schedule_id):
+    schedule = Schedule.query.get(schedule_id)
+    if not schedule:
+        return jsonify({'message': 'Schedule not found'}), 404
+
+    try:
+        db.session.delete(schedule)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    return jsonify({'message': 'Schedule deleted!'}), 200
+
 
 
 

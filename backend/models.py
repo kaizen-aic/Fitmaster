@@ -56,3 +56,44 @@ class Feedback(db.Model):
             "message": self.message,
         }
 
+class HealthData(db.Model):
+    __tablename__ = 'health_data'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    weight = db.Column(db.Float, nullable=False)  # In kilograms
+    heart_rate = db.Column(db.Integer, nullable=True)  # Beats per minute
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "userId": self.user_id,
+            "weight": self.weight,
+            "heartRate": self.heart_rate,
+        }
+    
+class CommunityBoardPost(db.Model):
+    __tablename__ = 'community_board_posts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "userId": self.user_id,
+            "content": self.content,
+        }
+
+class FitnessGroup(db.Model):
+    __tablename__ = 'fitness_groups'
+
+    id = db.Column(db.Integer, primary_key=True)
+    group_name = db.Column(db.String(100), nullable=False)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "groupName": self.group_name,
+        }

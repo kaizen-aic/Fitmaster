@@ -63,6 +63,7 @@ class HealthData(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Float, nullable=False)  # In kilograms
     heart_rate = db.Column(db.Integer, nullable=True)  # Beats per minute
+    fitness_goal = db.Column(db.String(150), nullable=False)
 
     def to_json(self):
         return {
@@ -70,6 +71,7 @@ class HealthData(db.Model):
             "userId": self.user_id,
             "weight": self.weight,
             "heartRate": self.heart_rate,
+            "fitnessGoal": self.fitness_goal,
         }
     
 class CommunityBoardPost(db.Model):

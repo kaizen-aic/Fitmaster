@@ -293,6 +293,8 @@ def submit_health_data():
         "fitnessGoal": fitness_goal,
     }
     HEALTH_DATA.append(new_record)
+    db.session.add(new_record)
+    db.session.commit()
     return jsonify({'message': 'Health data submitted successfully!'}), 201
 
 @app.route('/api/feedback', methods=['GET'])

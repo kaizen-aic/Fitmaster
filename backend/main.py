@@ -4,7 +4,7 @@ from config import app, db
 from models import User, Feedback
 from models import Schedule 
 from models import Leaderboard
-
+from models import *
 @app.route('/api/schedule', methods=['GET'])
 def get_schedule():
     schedules = Schedule.query.all()
@@ -287,11 +287,11 @@ def submit_health_data():
     if not weight or not heart_rate or not fitness_goal:
         return jsonify({'message': 'All fields are required'}), 400
 
-    new_record = {
+    new_record = HealthData(
         "weight": weight,
         "heartRate": heart_rate,
-        "fitnessGoal": fitness_goal,
-    }
+        "fitnessGoal": fitness_goal
+    )
     HEALTH_DATA.append(new_record)
     db.session.add(new_record)
     db.session.commit()

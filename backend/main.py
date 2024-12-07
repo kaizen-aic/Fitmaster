@@ -6,21 +6,6 @@ from models import User, Feedback
 from models import Schedule 
 from models import Leaderboard
 from models import *
-import jwt
-def get_jwt_token(request):
-    # Extract the JWT token from the Authorization header
-    token = request.headers.get('Authorization')
-    if not token:
-        return jsonify({"message": "Token is missing!"}), 401
-    
-    # Decode the token to get the user_id
-    try:
-        token = token.split(" ")[1]  # Get the token from 'Bearer <token>'
-        decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-        user_id = decoded_token['user_id']
-        return user_id
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"message": "Invalid or expired token!"}), 401
 @app.route('/api/schedule', methods=['GET'])
 def get_schedule():
     schedules = Schedule.query.all()
@@ -271,12 +256,12 @@ def join_group():
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
-    user_id = get_jwt_token(request)
-    CD = CommunityBoardPost.query.filter_by(user_id=user_id).order_by(desc(CommunityBoardPost.id)).all()
+    CD = CommunityBoardPost.query.order_by(desc(CommunityBoardPost.id)).all()
     Com_Post = []
     for post in CD:
         CBP ={
             "content": post.content,
+            "date_created": post.date_created 
         }
         Com_Post.append(CBP)
     return jsonify({"posts": Com_Post})
@@ -287,8 +272,8 @@ def create_post():
     content = request.json.get('content')
     if not content:
         return jsonify({'message': 'Post content is required'}), 400
-    user_id = get_jwt_token(request)
-    new_post = CommunityBoardPost(content=content, user_id=user_id, date_created=datetime.utcnow())
+
+    new_post = CommunityBoardPost(content=content, date_created=datetime.utcnow())
     db.session.add(new_post)
     db.session.commit()
     return jsonify({'message': 'Post created successfully!'}), 201
@@ -296,14 +281,14 @@ def create_post():
 # GET health data
 @app.route('/api/health', methods=['GET'])
 def get_health_data():
-    user_id = get_jwt_token(request)
-    health = HealthData.query.filter_by(user_id=user_id).order_by(desc(HealthData.id)).all()
+    health = HealthData.query.order_by(desc(HealthData.id)).all()
     health_log = []
     for data in health:
         healthdata ={
             "weight": data.weight,
             "heart_rate": data.heart_rate,
-            "fitness_goal": data.fitness_goal 
+            "fitness_goal": data.fitness_goal,
+            "date_created": data.date_created 
         }
         health_log.append(healthdata)
     return jsonify({"records": health_log})
@@ -317,9 +302,8 @@ def submit_health_data():
 
     if not weight or not heart_rate or not fitness_goal:
         return jsonify({'message': 'All fields are required'}), 400
-    user_id = request.args.get('user_id')
+
     new_record = HealthData(  
-        user_id=user_id,
         weight=weight,
         heart_rate=heart_rate,
         fitness_goal=fitness_goal,
@@ -338,7 +322,7 @@ def get_feedbacks():
 @app.route('/api/feedback', methods=['POST'])
 def add_feedback():
     data = request.json
-    user_id = get_jwt_token(request)
+    user_id = data.get('userId')
     message = data.get('message')
 
     if not user_id or not message:

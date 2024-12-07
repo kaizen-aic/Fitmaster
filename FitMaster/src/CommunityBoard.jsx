@@ -61,7 +61,7 @@ function CommunityBoard() {
             <ul className="post-list">
                 {posts.map((post, index) => (
                     <li key={index} className="post-item">
-                        {post.content}
+                        {post.content}<strong> Date and Time:</strong> {post.date_created} 
                     </li>
                 ))}
             </ul>

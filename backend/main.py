@@ -1,10 +1,26 @@
 # import components
 from flask import request, jsonify
+from sqlalchemy import desc
 from config import app, db
 from models import User, Feedback
 from models import Schedule 
 from models import Leaderboard
 from models import *
+import jwt
+def get_jwt_token(request):
+    # Extract the JWT token from the Authorization header
+    token = request.headers.get('Authorization')
+    if not token:
+        return jsonify({"message": "Token is missing!"}), 401
+    
+    # Decode the token to get the user_id
+    try:
+        token = token.split(" ")[1]  # Get the token from 'Bearer <token>'
+        decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        user_id = decoded_token['user_id']
+        return user_id
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return jsonify({"message": "Invalid or expired token!"}), 401
 @app.route('/api/schedule', methods=['GET'])
 def get_schedule():
     schedules = Schedule.query.all()
@@ -248,14 +264,22 @@ def join_group():
 
     # Mock logic
     return jsonify({'message': f'You successfully joined the group: {group_name}'}), 200
+    new_group = FitnessGroup(group_name=group_name, date_created=datetime.utcnow())
+    db.session.add(new_group)
+    db.session.commit()
 
-# Mock database for simplicity
-COMMUNITY_POSTS = []
 
-# GET community posts
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
-    return jsonify({"posts": COMMUNITY_POSTS})
+    user_id = get_jwt_token(request)
+    CD = CommunityBoardPost.query.filter_by(user_id=user_id).order_by(desc(CommunityBoardPost.id)).all()
+    Com_Post = []
+    for post in CD:
+        CBP ={
+            "content": post.content,
+        }
+        Com_Post.append(CBP)
+    return jsonify({"posts": Com_Post})
 
 # POST a new community post
 @app.route('/api/posts', methods=['POST'])
@@ -263,19 +287,26 @@ def create_post():
     content = request.json.get('content')
     if not content:
         return jsonify({'message': 'Post content is required'}), 400
-
-    new_post = {"content": content}
-    COMMUNITY_POSTS.append(new_post)
-
+    user_id = get_jwt_token(request)
+    new_post = CommunityBoardPost(content=content, user_id=user_id, date_created=datetime.utcnow())
+    db.session.add(new_post)
+    db.session.commit()
     return jsonify({'message': 'Post created successfully!'}), 201
-
-# Mock database for simplicity
-HEALTH_DATA = []
 
 # GET health data
 @app.route('/api/health', methods=['GET'])
 def get_health_data():
-    return jsonify({"records": HEALTH_DATA})
+    user_id = get_jwt_token(request)
+    health = HealthData.query.filter_by(user_id=user_id).order_by(desc(HealthData.id)).all()
+    health_log = []
+    for data in health:
+        healthdata ={
+            "weight": data.weight,
+            "heart_rate": data.heart_rate,
+            "fitness_goal": data.fitness_goal 
+        }
+        health_log.append(healthdata)
+    return jsonify({"records": health_log})
 
 # POST health data
 @app.route('/api/health', methods=['POST'])
@@ -286,13 +317,14 @@ def submit_health_data():
 
     if not weight or not heart_rate or not fitness_goal:
         return jsonify({'message': 'All fields are required'}), 400
-
-    new_record = HealthData(
-        "weight": weight,
-        "heartRate": heart_rate,
-        "fitnessGoal": fitness_goal
+    user_id = request.args.get('user_id')
+    new_record = HealthData(  
+        user_id=user_id,
+        weight=weight,
+        heart_rate=heart_rate,
+        fitness_goal=fitness_goal,
+        date_created=datetime.utcnow()
     )
-    HEALTH_DATA.append(new_record)
     db.session.add(new_record)
     db.session.commit()
     return jsonify({'message': 'Health data submitted successfully!'}), 201
@@ -306,7 +338,7 @@ def get_feedbacks():
 @app.route('/api/feedback', methods=['POST'])
 def add_feedback():
     data = request.json
-    user_id = data.get('userId')
+    user_id = get_jwt_token(request)
     message = data.get('message')
 
     if not user_id or not message:

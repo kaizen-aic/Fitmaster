@@ -92,7 +92,7 @@ function HealthData() {
                 {healthRecords.map((record, index) => (
                     <li key={index}>
                         <strong>Weight:</strong> {record.weight} kg, <strong>Heart Rate:</strong>{" "}
-                        {record.heartRate} bpm, <strong>Goal:</strong> {record.fitnessGoal}
+                        {record.heart_rate} bpm, <strong>Goal:</strong> {record.fitness_goal}
                     </li>
                 ))}
             </ul>

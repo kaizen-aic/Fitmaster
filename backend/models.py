@@ -1,5 +1,7 @@
 #import db object from config.py
+from datetime import datetime, timedelta
 from config import db
+
 
 # User model
 class User(db.Model):
@@ -60,10 +62,11 @@ class HealthData(db.Model):
     __tablename__ = 'health_data'
 
     id = db.Column(db.Integer, primary_key=True)
-    #user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Float, nullable=False)  # In kilograms
     heart_rate = db.Column(db.Integer, nullable=True)  # Beats per minute
     fitness_goal = db.Column(db.String(150), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     """def to_json(self):
         return {
@@ -78,8 +81,9 @@ class CommunityBoardPost(db.Model):
     __tablename__ = 'community_board_posts'
 
     id = db.Column(db.Integer, primary_key=True)
-    #user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
     content = db.Column(db.Text, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     """def to_json(self):
         return {
@@ -92,7 +96,9 @@ class FitnessGroup(db.Model):
     __tablename__ = 'fitness_groups'
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
     group_name = db.Column(db.String(100), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     """def to_json(self):
         return {
